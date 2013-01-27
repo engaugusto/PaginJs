@@ -98,12 +98,14 @@ var jPag = (function(){
   *  caso seja a ultima paginação e não tenha itens suficientes
   *  para exibir
   */
+  jPag.calculaItemExibido = function(indice, numPPag, tamVet){
 	var numPPag = parseInt(numPPag);
 	var tamVet = parseInt(tamVet);
 	var indice = parseInt(indice);
 	var indiceInicial = jPag.calculaIndiceInicial(indice, numPPag);
 	if(indiceInicial+numPPag <= tamVet)return numPPag;
 	return tamVet%numPPag;
+  }
   
   /*
   * Montar Navagação Anterior
