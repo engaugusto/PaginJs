@@ -239,7 +239,7 @@ test( " montarPaginacao test sem navegacao", function(){
   
   var outputHtml = j.MontarPaginacaoENavegacao(nDiv);
   //console.log(outputHtml);
-  ok(outputHtml=='<table><tr><td><a href="#" class="numPagJs" event-data="1,2,\'.montarPaginacaoPai .a\'">1<a></td><td><a href="#" class="numPagJs" event-data="2,2,\'.montarPaginacaoPai .a\'">2<a></td></tr></table>');
+  ok(outputHtml=='<table><tr><td><a href="#" class="numPagJs" event-data="1,2,\'.montarPaginacaoPai .a\'">1<a></td><td><a href="#" class="numPagJs ultimo" event-data="2,2,\'.montarPaginacaoPai .a\'">2<a></td></tr></table>');
 });
 
 test( " montarPaginacao test com navegacao", function(){
@@ -261,7 +261,7 @@ test( " montarPaginacao test com navegacao", function(){
   
   //var qtdPaginacao = $('.resultMontarPaginacao .numPagJs').length;
   //console.log(outputHtml);
-  ok(outputHtml == '<table><tr><td><a class="navAntes" href="#" event-data="P,2,\'.montarPaginacaoPaiComNav .a\'"><<</a></td><td><a class="navAntes" href="#" event-data="-1,2,\'.montarPaginacaoPaiComNav .a\'"><</a></td><td><a href="#" class="numPagJs" event-data="1,2,\'.montarPaginacaoPaiComNav .a\'">1<a></td><td><a href="#" class="numPagJs" event-data="2,2,\'.montarPaginacaoPaiComNav .a\'">2<a></td><td><a class="navDepois" href="#" event-data="+1,2,\'.montarPaginacaoPaiComNav .a\'">></a></td><td><a class="navDepois" href="#" event-data="U,2,\'.montarPaginacaoPaiComNav .a\'">>></a></td></tr></table>', 'Passed');
+  ok(outputHtml == '<table><tr><td><a class="navAntes" href="#" event-data="P,2,\'.montarPaginacaoPaiComNav .a\'"><<</a></td><td><a class="navAntes" href="#" event-data="-1,2,\'.montarPaginacaoPaiComNav .a\'"><</a></td><td><a href="#" class="numPagJs" event-data="1,2,\'.montarPaginacaoPaiComNav .a\'">1<a></td><td><a href="#" class="numPagJs ultimo" event-data="2,2,\'.montarPaginacaoPaiComNav .a\'">2<a></td><td><a class="navDepois" href="#" event-data="+1,2,\'.montarPaginacaoPaiComNav .a\'">></a></td><td><a class="navDepois" href="#" event-data="U,2,\'.montarPaginacaoPaiComNav .a\'">>></a></td></tr></table>', 'Passed');
 });
 
 //teste função principal
@@ -350,21 +350,21 @@ test("MontaHtmlPaginacao Test", function(){
   
   var numPPagDefault = j.getNumPorPag();
   var result = j.MontaHtmlPaginacao('a',1);
-  ok(result=='<td><a href="#" class="numPagJs" event-data="1,'
+  ok(result=='<td><a href="#" class="numPagJs ultimo" event-data="1,'
 	   +numPPagDefault+
 	   ',\'a\'">1<a></td>',
 	   'Esperado 1 td');
   result = j.MontaHtmlPaginacao('c',3);
   ok(result=='<td><a href="#" class="numPagJs" event-data="1,' 
 	   +numPPagDefault+
-	   ',\'c\'">1<a></td><td><a href="#" class="numPagJs" event-data="2,'
+	   ',\'c\'">1<a></td><td><a href="#" class="numPagJs ultimo" event-data="2,'
 	   +numPPagDefault+
 	   ',\'c\'">2<a></td>','Esperado 2 td\'s');
   
   var j = new jPag({'divPagName': '.testPagDiv'});
   result = j.MontaHtmlPaginacao('c',3);
   
-  ok(result=='<td><a href="#" class="numPagJs" event-data="1,'+numPPagDefault+',\'c\',\'.testPagDiv\'">1<a></td><td><a href="#" class="numPagJs" event-data="2,'+numPPagDefault+',\'c\',\'.testPagDiv\'">2<a></td>','Esperado que fossem 2 tds com o nome da div de paginacao');
+  ok(result=='<td><a href="#" class="numPagJs" event-data="1,'+numPPagDefault+',\'c\',\'.testPagDiv\'">1<a></td><td><a href="#" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',\'c\',\'.testPagDiv\'">2<a></td>','Esperado que fossem 2 tds com o nome da div de paginacao');
 });
 
 test('numPorPag Test', function(){
@@ -384,7 +384,7 @@ test('exibeUltimoIndice Test', function(){
 	//console.log(result);
     ok(result==
 	  '<td><a href="#" class="numPagJs" event-data="1,'+numPPagDefault+',\'a\'">1<a></td>'+
-	  '<td><a href="#" class="numPagJs" event-data="2,'+numPPagDefault+',\'a\'">2<a></td>'+
+	  '<td><a href="#" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',\'a\'">2<a></td>'+
 	  '<td>...[<a href="#" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',\'a\'">2<a>]</td>',
 	  'Esperado 2 linhas com td e o ... com o ultimo indice');
 });
