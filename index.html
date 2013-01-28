@@ -4,24 +4,89 @@
   <meta charset="utf-8">
   <title></title>
   Index
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.pag.js"></script>
   <script type="text/javascript" >
+    $(function(){
+	  var jPaginar = new jPag({'divPagName':'.divPagTst1'});
+	  jPaginar = jPaginar.Paginar($('.teste1 .tst'));
+	  
+	  var jPaginar2 = new jPag(
+	      {
+		     'divPagName':'.divPagTst2',
+			 'navegacao': true
+		  }
+		);
+	  jPaginar2 = jPaginar2.Paginar($('.teste2 .tst'));
+	  
+	  var jPaginar3 = new jPag(
+	     { 
+		   'divPagName':'.divPagTst3',
+		   'navegacao': true,
+		   'exibeUltimoIndice': true
+		 }
+	 );
+	  jPaginar3 = jPaginar3.Paginar($('.teste3 .tst'));
+	});
   </script>
 </head>
 <body>
+ <div class='teste1' style='float:left'>
+ <h1>Test1</h1>
   <div class='tst'>
-    Bacon ipsum dolor sit amet strip steak venison biltong frankfurter flank beef beef ribs pork turducken ball tip bacon bresaola. Pork jowl biltong, salami ball tip beef ribs ham hock doner. Jowl pork fatback, boudin frankfurter chuck brisket doner turducken ribeye. Tail rump leberkas bresaola filet mignon, swine meatloaf ham hock sirloin pork belly tenderloin jowl. Turkey jowl turducken ham hock.
+    Testo 1.1
   </div>
   <div class='tst'>
-    Fatback cow chuck frankfurter, sirloin filet mignon flank. Ball tip short loin biltong, pork chop rump ham hock frankfurter andouille chicken meatloaf shoulder leberkas. Hamburger salami filet mignon rump prosciutto. Capicola chuck jowl ground round. Strip steak chicken flank pastrami, ground round chuck swine filet mignon prosciutto.
+    Testo 1.2
   </div>
   <div class='tst'>
-    Kielbasa pork belly bacon pastrami meatball. Pork belly fatback tenderloin spare ribs venison pork chop corned beef andouille short loin tri-tip. Spare ribs leberkas meatloaf corned beef ham hock bacon. Pancetta beef rump jerky fatback. Short ribs jowl tail, sausage ball tip pork salami shankle beef spare ribs t-bone pastrami venison biltong filet mignon. Capicola tenderloin drumstick pig corned beef ham hock brisket cow shoulder frankfurter hamburger turkey. Leberkas salami drumstick pig shank ham hock t-bone prosciutto strip steak capicola meatball biltong corned beef hamburger.
+    Testo 1.3
   </div>
   <div class='tst'>
-    Short ribs pork swine leberkas biltong, capicola pork chop bresaola andouille pork belly cow tongue jowl. Pig meatloaf pork loin brisket, meatball hamburger shank short ribs turducken spare ribs chicken swine venison pork chop bresaola. Capicola tongue leberkas, tri-tip sirloin ribeye short loin meatloaf turkey. Swine pancetta ham, chicken frankfurter meatball rump beef ribs corned beef doner shoulder. Beef leberkas bresaola, meatball corned beef kielbasa pastrami ground round tail pork loin flank hamburger doner biltong. Brisket ribeye leberkas beef pork chop sirloin cow swine. Boudin filet mignon flank fatback pig frankfurter leberkas brisket shankle beef ham tongue ham hock salami.
+    Testo 1.4
   </div>
   <div class='tst'>
-    T-bone pork belly boudin chuck short ribs, sausage pig meatball. Biltong ribeye salami pastrami jerky swine meatloaf pork belly chuck sirloin t-bone ground round brisket strip steak. Jerky bresaola pig beef ribs pork chop short loin bacon ribeye rump venison. Shank pancetta pastrami jowl. Venison frankfurter hamburger jerky sirloin kielbasa leberkas shank filet mignon cow brisket turkey doner.
+    Testo 1.5
   </div>
+  <div class='divPagTst1'></div>
+ </div>
+ <div class='teste2' style='float:left;margin-left:30px;'>
+ <h1>Test2</h1>
+  <div class='tst'>
+    Testo 2.1
+  </div>
+  <div class='tst'>
+    Testo 2.2
+  </div>
+  <div class='tst'>
+    Testo 2.3
+  </div>
+  <div class='tst'>
+    Testo 2.4
+  </div>
+  <div class='tst'>
+    Testo 2.5
+  </div>
+  <div class='divPagTst2'></div>
+ </div>
+ <div class='teste3' style='float:left;margin-left:30px;'>
+ <h1>Test3</h1>
+  <div class='tst'>
+    Testo 3.1
+  </div>
+  <div class='tst'>
+    Testo 3.2
+  </div>
+  <div class='tst'>
+    Testo 3.3
+  </div>
+  <div class='tst'>
+    Testo 3.4
+  </div>
+  <div class='tst'>
+    Testo 3.5
+  </div>
+  <div class='divPagTst3'></div>
+ </div>
 </body>
 </html>

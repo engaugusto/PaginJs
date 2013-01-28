@@ -22,9 +22,11 @@ var jPag = (function(){
   */
   function jPag(options){
     var default_args = {
-		'numPorPag'	:	5,
+		'numPorPag'	:	2,
 		'numPorNav':	3,
-		'navagacao': false
+		'divPagName': '.jPagPag',
+		'navegacao': false,
+		'exibeUltimoIndice': false
 	};
 	
 	if(typeof(options) !== "undefined"){
@@ -36,11 +38,65 @@ var jPag = (function(){
 	}
 	this.numPorPag = options['numPorPag'];
 	this.numPorNav = options['numPorNav'];
-	this.navegacao = options['navagacao'];
+	this.navegacao = options['navegacao'];
+	//nome das div's
+	this.divPagName = options['divPagName'];
+	this.exibeUltimoIndice = options['exibeUltimoIndice'];
+	
+	this.VerificaECriarDiv();
+  };
+  
+  
+  /*
+  *  Propriedade do numPorPag
+  */
+  jPag.prototype.getNumPorPag = function(){
+    return this.numPorPag;
+  };
+  
+  /*
+  *  Função que trata da string event-data e
+  *  retorna um objeto JSON
+  */
+  jPag.HandleEventData = function(eventData){
+    var objRet = {
+	  indice: null,
+	  numPPag: null,
+	  seletor: null,
+	  nomeDiv: null
+	};
+	
+	var splitEventData = eventData.split(',');
+	
+	//removendo o '
+	objRet.indice = splitEventData[0].replace(/\'/g,"")
+	objRet.numPPag = parseInt(splitEventData[1]);
+	objRet.seletor = splitEventData[2].replace(/\'/g,"")
+	if(splitEventData.length == 4){
+		objRet.nomeDiv = splitEventData[3].replace(/\'/g,"")
+	}else{
+		objRet.nomeDiv = ".jPagPag";
+	}
+	
+	return objRet;
+  }
+  
+  /*
+  *  Verifica se a div de navegação não existe e criar se necesário
+  */
+  jPag.prototype.VerificaECriarDiv = function(){
+    var divNamePag = this.divPagName;
+	if(divNamePag.charAt(0) == '.'){
+	  divNamePag = divNamePag.replace('.','');
+	}
+	if($(this.divPagName).length == 0) $('body').append('<div class="{0}"></div>'.format(divNamePag));
+	//if($(this.divNavName).length == 0) $('body').append('<div class="{0}"></div>'.format(this.divNavName));
   };
   
   /*
   *  Função que altera a página atual
+  *  formato esperado do event-data
+  *  {0},{1},{2},{3] = indicePagina, numPPag, seletor, nomeDivPaginacao
   */
   jPag.prototype.AlterarPagina = function(e){
     var objSelf;
@@ -51,31 +107,65 @@ var jPag = (function(){
 	else{
 		objSelf=this;
 	};
-	
-	
+		
 	var eventData = $(objSelf).attr('event-data');
-	var indiceVirgula = eventData.indexOf(',');
+	var objEventData = jPag.HandleEventData(eventData);
 	
-	var proximaVirgula = eventData.indexOf(',',indiceVirgula+1);
-	
-	var indicePagina = eventData.slice(0,1); 
-	var numPPag = eventData.slice(indiceVirgula+1, proximaVirgula);
-	var seletor = eventData.slice(proximaVirgula+2,eventData.length -1); //$(eventData).splice(',')[1];
+	var indicePagina = objEventData.indice; 
+	var numPPag = objEventData.numPPag;
+	var seletor = objEventData.seletor; 
+	var nomeDiv = objEventData.nomeDiv;
 	
 	//ocultando todos
-	$("'"+seletor+'"').hide();
+	$(seletor).hide();
 	
-	console.log(indicePagina);
-	console.log(seletor);
-	console.log(numPPag);
+	//Oculta a Navegação do antes e depois caso primeiro ou ultimo	
+	jPag.ExibeItens(indicePagina, seletor, numPPag, nomeDiv);
 	
-	jPag.ExibeItens(indicePagina, seletor, numPPag);
+	//verifica se é o primeiro se for oculta a navegação anterior
+	jPag.VerificaPriUltOculta(nomeDiv);
   };
   
-  /*Vincula os eventos*/
-  jPag.prototype.BindEvents = function(seletor){	
+  /*
+  *  Verifica se é primeiro ou o ultimo e oculta a navegação
+  */
+  jPag.VerificaPriUltOculta = function(divPagName){
+	if($('.numPagJs.selected', divPagName).html() == '1'
+	   || $('.numPagJs.selected', divPagName).length == 0){
+	   $('.navAntes', divPagName).hide();
+	 }else{
+	   $('.navAntes', divPagName).show();
+	 }
+	if($('.numPagJs.selected.ultimo', divPagName).length >= 1){
+	   $('.navDepois', divPagName).hide();
+	}else{
+	   $('.navDepois', divPagName).show();
+	}
+  };
+  
+  /*
+  *  Adiciona uma classe ao indice selecionado da paginação
+  */
+  jPag.PaginacaoSelect = function(indice, seletor){
+	var indice = String(indice);
+	
+    $('.numPagJs', seletor).each(function(ind,obj){
+		if(indice == $(obj).html()){
+		  if(!$(obj).hasClass('selected'))
+		    $(obj).addClass('selected');	
+		}else{
+		  $(obj).removeClass('selected');
+		}
+	});
+  }
+  
+  /*
+  *  Vincula os eventos
+  */
+  jPag.prototype.BindEvents = function(){	
 	var jPagInner = this;
-	var arrayAPagin = $('a.numPagJs',seletor);
+	//colocando nos links
+	var arrayAPagin = $('a.numPagJs, .navDepois, .navAntes',this.divPagName);
 	arrayAPagin.each(function(ind,obj){
 	  $(obj).click(jPagInner.AlterarPagina);
 	});
@@ -92,6 +182,17 @@ var jPag = (function(){
   };
   
   /*
+  *  Calcula Paginação Final
+  */
+  jPag.calculaPaginacaoFinal = function(total, numPPag){
+    var total = parseInt(total);
+	var numPPag = parseInt(numPPag);
+	
+	if(total%numPPag == 0) return total/numPPag;
+	return 	Math.floor(total/numPPag)+1;
+  };
+  
+  /*
   *  calculaItemExibido
   *
   *  calcula quantos itens deve ser exibidos
@@ -103,6 +204,7 @@ var jPag = (function(){
 	var tamVet = parseInt(tamVet);
 	var indice = parseInt(indice);
 	var indiceInicial = jPag.calculaIndiceInicial(indice, numPPag);
+	
 	if(indiceInicial+numPPag <= tamVet)return numPPag;
 	return tamVet%numPPag;
   }
@@ -110,11 +212,23 @@ var jPag = (function(){
   /*
   * Montar Navagação Anterior
   */
-  jPag.prototype.montarNavAntes = function(){
+  jPag.prototype.montarNavAntes = function(seletor, numPPag){
 	var outputHtml = '';
 	
-	outputHtml += '<a class="navAntes" href="#">{0}</a>'.format('<<');
-	outputHtml += '<a class="navAntes" href="#">{0}</a>'.format('<');
+	//coloca a paginação somente se não for a default
+	var divPagConcat = '';
+	if(this.divPagName != '.jPagPag'){
+		 divPagConcat = ",\'{0}\'".format(this.divPagName);
+	}
+	
+	//indice, numPPag, seletor
+	outputHtml += 
+		'<td><a class="navAntes" href="#" event-data="{0},{1},\'{2}\'{4}">{3}</a></td>'
+		  .format('P',numPPag,seletor,'<<', divPagConcat);
+		  
+	outputHtml += 
+		'<td><a class="navAntes" href="#" event-data="{0},{1},\'{2}\'{4}">{3}</a></td>'
+		  .format('-1',numPPag,seletor,'<', divPagConcat);
 	
 	return outputHtml;
   }
@@ -122,59 +236,126 @@ var jPag = (function(){
   /*
   * Montar Navagação Anterior
   */
-  jPag.prototype.montarNavDepois = function(){
+  jPag.prototype.montarNavDepois = function(seletor, numPPag){
     var outputHtml = '';
 	
-	outputHtml += '<a class="navDepois" href="#">{0}</a>'.format('>');
-	outputHtml += '<a class="navDepois" href="#">{0}</a>'.format('>>');
+	//coloca a paginação somente se não for a default
+	var divPagConcat = '';
+	if(this.divPagName != '.jPagPag'){
+		 divPagConcat = ",\'{0}\'".format(this.divPagName);
+	}
 	
+	outputHtml += 
+		'<td><a class="navDepois" href="#" event-data="{0},{1},\'{2}\'{4}">{3}</a></td>'
+		  .format('+1',numPPag,seletor,'>', divPagConcat);
+	
+	//indice, numPPag, seletor
+	outputHtml += 
+		'<td><a class="navDepois" href="#" event-data="{0},{1},\'{2}\'{4}">{3}</a></td>'
+		  .format('U',numPPag,seletor,'>>', divPagConcat);
+		
 	return outputHtml;
   } 
   
   /*
+  *  Procura item selecionado
+  */
+  jPag.IndiceItemSelecionado = function(divPagName){
+    if($('.numPagJs.selected',divPagName).length >= 1) return parseInt($('.numPagJs.selected', $(divPagName)).html());
+	return 0;
+  }
+  
+  /*
   *  Exibe itens baseado em um indice e na quantidade por página
   */
-  jPag.ExibeItens = function(indice, seletor, numPorPag){
+  jPag.ExibeItens = function(indice, seletor, numPorPag, divPagName){
 	var totalItensNoSeletor = $(seletor).length;
+	var total = $(seletor).length;
+	
+	if(indice == 'P') indice = 1;
+	if(indice == 'U') {
+		indice = this.calculaPaginacaoFinal(total,numPorPag); //indice final
+	}
+	//se for o próximo
+	if(String(indice) == '+1'){
+	  //pega o selecionado e procura o próximo
+	  indice = jPag.IndiceItemSelecionado(divPagName)+1;
+	  var indiceFinal = this.calculaPaginacaoFinal(total,numPorPag);
+	  if(indice >= indiceFinal)
+		indice = indiceFinal;
+	}	
+	//se for o o anterior
+	if(indice == '-1'){
+	  indice = jPag.IndiceItemSelecionado(divPagName)-1;
+	  if(indice<=0)
+		indice = 1;
+	}
+	
+	//adicionando uma classe na página selecionada
+	jPag.PaginacaoSelect(indice);
+	
     //itemInicial e itemFinal
 	var indiceInicial = jPag.calculaIndiceInicial(indice, numPorPag);
 	var totalItens = jPag.calculaItemExibido(indice, numPorPag, totalItensNoSeletor);
-	console.log('g'+totalItens);
-	for(var i = indiceInicial; i < totalItens;i++){
-		console.log('b'+$(seletor).attr('display'));
-		$($(seletor)[i]).show();
+	
+	for(var i = 0; i < totalItens;i++){
+		$($(seletor)[indiceInicial+i]).show();
 	}
   };
   
   /*
-  *  Montar Paginação
+  *  Monta a Html de paginacao 
   */
-  jPag.prototype.MontarPaginacao = function(seletor){
+  jPag.prototype.MontaHtmlPaginacao = function(seletorNome, totalElementos){
+    
+	//coloca a paginação somente se não for a default
+	var divPagConcat = '';
+	if(this.divPagName != '.jPagPag'){
+		 divPagConcat = ",\'{0}\'".format(this.divPagName);
+	}
+	var ultimaPagina = jPag.calculaPaginacaoFinal(totalElementos,this.numPorPag)-1;
+	
+	var ultimaPaginaClass = '';
+	var paginacao = '';
+	var totalPaginas = totalElementos/this.numPorPag;
+	//paginacao
+	for(i = 0; i < totalPaginas; i++){
+		paginacao += '<td>';
+		if(i == ultimaPagina){
+		  ultimaPaginaClass = ' ultimo'
+		}
+		paginacao += '<a href="#" class="numPagJs{4}" event-data="{0},{1},\'{2}\'{3}">{0}<a>'.format(i+1,this.numPorPag,seletorNome,divPagConcat, ultimaPaginaClass);
+		paginacao += '</td>';
+	}
+	if(this.exibeUltimoIndice)
+	    paginacao += '<td>...[<a href="#" class="numPagJs ultimo" event-data="{0},{1},\'{2}\'{3}">{0}<a>]</td>'.format(i,this.numPorPag,seletorNome,divPagConcat);
+	
+	return paginacao;
+  };
+  
+  /*
+  *  Montar Paginação e Navegação
+  */
+  jPag.prototype.MontarPaginacaoENavegacao = function(seletor){
     var outputHtml, outputNavAntes, outputNavDepois;
 	outputNavAntes = '';
 	outputHtml = '';
 	outputNavDepois = '';
 	
 	if(this.navegacao){
-	  outputNavAntes = this.montarNavAntes();
-	  outputNavDepois = this.montarNavDepois();
+	  outputNavAntes = this.montarNavAntes($(seletor).selector, this.numPorPag);
+	  outputNavDepois = this.montarNavDepois($(seletor).selector, this.numPorPag);
 	}
 	
 	outputHtml = '<table><tr>{0}{1}{2}</tr></table>';	
 	
-	jPag.ExibeItens(this.indice, seletor, this.numPPag);
+	//Exibe sempre a primeira pagina (indice = 1)
+	jPag.ExibeItens(1, seletor, this.numPorPag, this.divPagName);
 	
-	var paginacao = '';
-	var totalItem = $(seletor).length/this.numPorPag;
-	//paginacao
-	for(i = 0; i < totalItem; i++){
-		paginacao += '<td>';
-		paginacao += '<a href="#" class="numPagJs" event-data="{0},{1},\'{2}\'" >{0}<a>'.format(i+1,this.numPorPag,$(seletor).selector);
-		paginacao += '</td>';
-	}
+	var paginacao = this.MontaHtmlPaginacao($(seletor).selector,$(seletor).length);
 	
 	if(this.navegacao)
-		outputHtml = outputHtml.format(outputNavAntes,outputHtml,outputNavDepois);
+		outputHtml = outputHtml.format(outputNavAntes,paginacao,outputNavDepois);
 	else
 		outputHtml = outputHtml.format('',paginacao,'');
 	
@@ -183,21 +364,24 @@ var jPag = (function(){
   
   /*
   * Paginar
+  * Função que vincula os eventos e pagina
+  * Função Principal
   */
-  jPag.prototype.Paginar = function(indice, seletor){
+  jPag.prototype.Paginar = function(seletor){
 	var indice;
     var numPPag, numPNav;
    
-	if(typeof(indice) == 'undefined') indice =1;
-	this.indice = indice;
 	this.seletor = seletor;
 	//Ocultar todos os itens
 	$(seletor).hide();
 	
-	this.MontarPaginacao(seletor, this.navegacao);
+	$(this.divPagName).append(this.MontarPaginacaoENavegacao(seletor));
+	
+	jPag.VerificaPriUltOculta(this.divPagName);
 	
 	this.BindEvents(seletor);
   };
+  
   
   return jPag;
 })();
