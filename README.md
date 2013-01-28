@@ -1,6 +1,11 @@
 PaginJs
 =======
 
+Requisitos
+==
+Foi desenvolvido com o servidor NodeJs + ExpressJs
+
+==Descrição
 -Paginação utilizando jQuery
 -Exemplo de utilização:
 1.Selecione os seletores que devem ser páginados
@@ -17,5 +22,6 @@ j.Paginar(sel);
 'navegacao': bool exibir navegação,
 'exibeUltimoIndice': bool exibe o último indice com ...[ultimoIndice]
 
+==Release
 Versão para utilização em produção dentro de output
 Compilado no Yuicompresor online (http://refresh-sf.com/yui/)
