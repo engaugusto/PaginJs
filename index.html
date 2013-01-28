@@ -13,6 +13,7 @@
 	  
 	  var jPaginar2 = new jPag(
 	      {
+			'numPorPag': 50,
 		     'divPagName':'.divPagTst2',
 			 'navegacao': true
 		  }
@@ -32,14 +33,28 @@
 	     { 
 		   'divPagName':'.divPagTst4',
 		   'navegacao': true,
+		   'numPorNav': 2,
 		   'exibeUltimoIndice': true
 		 }
 	 );
 	  jPaginar4.Paginar($('.teste4 .tst'));
+	  
+	  var jPaginar5 = new jPag(
+	     { 
+		   'divPagName':'.teste5',
+		   'navegacao': true,
+		   'numPorPag': 1,
+		   'numPorNav': 2,
+		   'exibeUltimoIndice': true
+		 }
+	 );
+	  jPaginar5.Paginar($('.teste5 .tst'));
+	  
 	});
   </script>
 </head>
 <body>
+ <h1>Exemplo paginacoes</h1>
  <div class='teste1' style='float:left'>
  <h1>Test1</h1>
   <div class='tst'>
@@ -144,6 +159,20 @@
     Testo 4.15
   </div>
   <div class='divPagTst4'></div>
+  </div>
+  <div style='clear:both'/>
+  <div class='teste5' style='float:left;'>
+    <div class='divPagTst5'>
+	   <img class='tst' src='http://www.penticton.ca/assets/Departments/Images/2012-DogGS.PNG' width="300" height="350"/>
+	   <img class='tst' src='http://1.bp.blogspot.com/-DtwxJzWoAh8/TewF7JOqMdI/AAAAAAAAA8k/Q8t1SvmXnmM/s1600/Elvis%2Bdog.jpg' width="300" height="350"/>
+	   <img class='tst' src='http://www.petfinder.com/wp-content/uploads/2012/11/153588021-dog-anal-gland-care-632x475.jpg' width="300" height="350"/>
+	   <img class='tst' src='http://vacay.ca/wp-content/uploads/2012/02/dog-sledding.jpg' width="300" height="350"/>
+	   <img class='tst' src='http://nationalpostnews.files.wordpress.com/2011/12/dog.jpg?w=620' width="300" height="350"/>
+	</div>
+  </div>
+  <div class='teste6' style='float:left;margin-left:30px;'>
+   <div class='divPagTst6'></div>
+  </div>
  </div>
 </body>
 </html>

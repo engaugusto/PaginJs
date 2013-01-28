@@ -19,8 +19,8 @@ test( "montarNavAntes test", function() {
 
   var seletor = '.montarNavAntes .c';
   
-  var result = j.montarNavAntes(seletor,2);
-  ok('<td><a class="navAntes" href="#" event-data="P,2,\'.montarNavAntes .c\'"><<</a></td><td><a class="navAntes" href="#" event-data="-1,2,\'.montarNavAntes .c\'"><</a></td>'
+  var result = j.montarNavAntes(seletor,2,3);
+  ok('<td><a class="navAntes" href="#" event-data="P,2,3,\'.montarNavAntes .c\'"><<</a></td><td><a class="navAntes" href="#" event-data="-1,2,3,\'.montarNavAntes .c\'"><</a></td>'
 		== result, "Passed!" );
 });
 
@@ -31,9 +31,9 @@ test( "montarNavDepois test", function() {
   
   var seletor = '.montarNavDepois .c'
   
-  var result = j.montarNavDepois(seletor, 2);
+  var result = j.montarNavDepois(seletor, 2,5);
   //console.log(result);
-  ok( '<td><a class="navDepois" href="#" event-data="+1,2,\'.montarNavDepois .c\'">></a></td><td><a class="navDepois" href="#" event-data="U,2,\'.montarNavDepois .c\'">>></a></td>' == result, "Passed!" );
+  ok( '<td><a class="navDepois" href="#" event-data="+1,2,5,\'.montarNavDepois .c\'">></a></td><td><a class="navDepois" href="#" event-data="U,2,5,\'.montarNavDepois .c\'">>></a></td>' == result, "Passed!" );
 });
 
 test( "calculaItemExibido test", function(){
@@ -75,7 +75,7 @@ test( "AlterarPagina test indice 1", function(){
 	});
 	$('body').append('<div class="d" style="display:none"><div class="c" style="display:none" >Test1</div><div class="c" style="display:none" >Test2</div><div class="c" style="display:none" >Test3</div></div>');
 	//event-data = indice-pagina, numPPag, seletor
-	$('.d').append('<a href="#" class="numPagJs" event-data="1,2,\'.d div.c\'">1<a><a href="#" class="numPagJs" event-data="2,2,\'.d div.c\'">2<a>');
+	$('.d').append('<a href="#" class="numPagJs" event-data="1,2,2,\'.d div.c\'">1<a><a href="#" class="numPagJs" event-data="2,2,2,\'.d div.c\'">2<a>');
 	
 	var e = $('.numPagJs', $('.d'))[0];
 	j.AlterarPagina(e);
@@ -91,7 +91,7 @@ test( "AlterarPagina test indice 2", function(){
 	});
 	$('body').append('<div class="alterarPagina2" style="display:none"><div class="c" style="display:none" >Test1</div><div class="c" style="display:none" >Test2</div><div class="c" style="display:none" >Test3</div></div>');
 	//event-data = indice-pagina, numPPag, seletor
-	$('.alterarPagina2').append('<a href="#" class="numPagJs" event-data="1,2,\'.alterarPagina2 div.c\'">1<a><a href="#" class="numPagJs" event-data="2,2,\'.alterarPagina2 div.c\'">2<a>');
+	$('.alterarPagina2').append('<a href="#" class="numPagJs" event-data="1,2,2,\'.alterarPagina2 div.c\'">1<a><a href="#" class="numPagJs" event-data="2,2,2,\'.alterarPagina2 div.c\'">2<a>');
 	
 	//clicando no segundo item da paginacao 2
 	var e = $('.numPagJs', $('.alterarPagina2'))[1];
@@ -231,7 +231,8 @@ test("calculaPaginacaoFinal Test", function(){
 
 test( " montarPaginacao test sem navegacao", function(){
   var j = new jPag({
-	'numPorPag': 2
+	'numPorPag': 2,
+	'numPorNav': 2
   });
   $('body').append('<div class="montarPaginacaoPai" style="display:none" />');
   $('.montarPaginacaoPai').append('<div class="a">Teste123456</div><div class="a">Teste123456</div><div class="a">Teste123456</div>');
@@ -239,7 +240,7 @@ test( " montarPaginacao test sem navegacao", function(){
   
   var outputHtml = j.MontarPaginacaoENavegacao(nDiv);
   //console.log(outputHtml);
-  ok(outputHtml=='<table><tr><td><a href="#" class="numPagJs" event-data="1,2,\'.montarPaginacaoPai .a\'">1<a></td><td><a href="#" class="numPagJs ultimo" event-data="2,2,\'.montarPaginacaoPai .a\'">2<a></td></tr></table>');
+  ok(outputHtml=='<table><tr><td><a href="#" class="numPagJs selected" event-data="1,2,2,\'.montarPaginacaoPai .a\'">1</a></td><td><a href="#" class="numPagJs ultimo" event-data="2,2,2,\'.montarPaginacaoPai .a\'">2</a></td></tr></table>');
 });
 
 test( " montarPaginacao test com navegacao", function(){
@@ -255,13 +256,14 @@ test( " montarPaginacao test com navegacao", function(){
   var nDiv = $('.montarPaginacaoPaiComNav .a');
   var j = new jPag({
 	'numPorPag': 2,
+	'numPorNav': 2,
 	'navegacao': true
   });
   var outputHtml = j.MontarPaginacaoENavegacao(nDiv);
   
   //var qtdPaginacao = $('.resultMontarPaginacao .numPagJs').length;
   //console.log(outputHtml);
-  ok(outputHtml == '<table><tr><td><a class="navAntes" href="#" event-data="P,2,\'.montarPaginacaoPaiComNav .a\'"><<</a></td><td><a class="navAntes" href="#" event-data="-1,2,\'.montarPaginacaoPaiComNav .a\'"><</a></td><td><a href="#" class="numPagJs" event-data="1,2,\'.montarPaginacaoPaiComNav .a\'">1<a></td><td><a href="#" class="numPagJs ultimo" event-data="2,2,\'.montarPaginacaoPaiComNav .a\'">2<a></td><td><a class="navDepois" href="#" event-data="+1,2,\'.montarPaginacaoPaiComNav .a\'">></a></td><td><a class="navDepois" href="#" event-data="U,2,\'.montarPaginacaoPaiComNav .a\'">>></a></td></tr></table>', 'Passed');
+  ok(outputHtml == '<table><tr><td><a class="navAntes" href="#" event-data="P,2,2,\'.montarPaginacaoPaiComNav .a\'"><<</a></td><td><a class="navAntes" href="#" event-data="-1,2,2,\'.montarPaginacaoPaiComNav .a\'"><</a></td><td><a href="#" class="numPagJs selected" event-data="1,2,2,\'.montarPaginacaoPaiComNav .a\'">1</a></td><td><a href="#" class="numPagJs ultimo" event-data="2,2,2,\'.montarPaginacaoPaiComNav .a\'">2</a></td><td><a class="navDepois" href="#" event-data="+1,2,2,\'.montarPaginacaoPaiComNav .a\'">></a></td><td><a class="navDepois" href="#" event-data="U,2,2,\'.montarPaginacaoPaiComNav .a\'">>></a></td></tr></table>', 'Passed');
 });
 
 //teste função principal
@@ -322,25 +324,28 @@ test('HandleEventData Test', function(){
   var stringTest = '';
   var result = '';
   
-  stringTest = '\'+1\',2,\'.divSeletor\',\'.divPag\'';	
+  stringTest = '\'+1\',2,5,\'.divSeletor\',\'.divPag\'';	
   result = jPag.HandleEventData(stringTest);
   ok(result.indice == "+1", "Esperado \'+1\'")
   ok(result.numPPag == 2, "Esperado 2")
+  ok(result.numPNav == 5, "Esperado 5")
   ok(result.seletor == '.divSeletor', "Esperado .divSeletor")
   ok(result.nomeDiv == '.divPag', "Esperado .divPag")
   
-  stringTest = '5,4,\'.divSeletor2\',\'.divPag3\'';	
+  stringTest = '5,4,1,\'.divSeletor2\',\'.divPag3\'';	
   result = jPag.HandleEventData(stringTest);
   ok(result.indice == 5, "Esperado 5")
   ok(result.numPPag == 4, "Esperado 4")
+  ok(result.numPNav == 1, "Esperado 1")
   ok(result.seletor == '.divSeletor2', "Esperado .divSeletor")
   ok(result.nomeDiv == '.divPag3', "Esperado .divPag")
   
   //com o nome Da Div null
-  stringTest = '5,4,\'.divSeletor2\'';	
+  stringTest = '5,4,0,\'.divSeletor2\'';	
   result = jPag.HandleEventData(stringTest);
   ok(result.indice == 5, "Esperado 5")
   ok(result.numPPag == 4, "Esperado 4")
+  ok(result.numPNav == 0, "Esperado 0")
   ok(result.seletor == '.divSeletor2', "Esperado .divSeletor")
   ok(result.nomeDiv == '.jPagPag', "Esperado .jPagPag")
 });
@@ -350,21 +355,28 @@ test("MontaHtmlPaginacao Test", function(){
   
   var numPPagDefault = j.getNumPorPag();
   var result = j.MontaHtmlPaginacao('a',1);
-  ok(result=='<td><a href="#" class="numPagJs ultimo" event-data="1,'
+  
+  ok(result=='<td><a href="#" class="numPagJs selected ultimo" event-data="1,'
 	   +numPPagDefault+
-	   ',\'a\'">1<a></td>',
+	   ',3,\'a\'">1</a></td>',
 	   'Esperado 1 td');
   result = j.MontaHtmlPaginacao('c',3);
-  ok(result=='<td><a href="#" class="numPagJs" event-data="1,' 
+  ok(result=='<td><a href="#" class="numPagJs selected" event-data="1,' 
 	   +numPPagDefault+
-	   ',\'c\'">1<a></td><td><a href="#" class="numPagJs ultimo" event-data="2,'
+	   ',3,\'c\'">1</a></td><td><a href="#" class="numPagJs ultimo" event-data="2,'
 	   +numPPagDefault+
-	   ',\'c\'">2<a></td>','Esperado 2 td\'s');
+	   ',3,\'c\'">2</a></td>','Esperado 2 td\'s');
   
   var j = new jPag({'divPagName': '.testPagDiv'});
   result = j.MontaHtmlPaginacao('c',3);
-  
-  ok(result=='<td><a href="#" class="numPagJs" event-data="1,'+numPPagDefault+',\'c\',\'.testPagDiv\'">1<a></td><td><a href="#" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',\'c\',\'.testPagDiv\'">2<a></td>','Esperado que fossem 2 tds com o nome da div de paginacao');
+  //console.log(result);
+  ok(result=='<td><a href="#" class="numPagJs selected" event-data="1,'
+               +numPPagDefault+
+			   ',3,\'c\',\'.testPagDiv\'">1</a></td><td><a href="#" class="numPagJs ultimo" event-data="2,'
+			   +numPPagDefault+
+			   ',3,\'c\',\'.testPagDiv\'">2</a></td>',
+			   'Esperado que fossem 2 tds com o nome da div de paginacao'
+    );
 });
 
 test('numPorPag Test', function(){
@@ -383,9 +395,9 @@ test('exibeUltimoIndice Test', function(){
     var result = j.MontaHtmlPaginacao('a',3);
 	//console.log(result);
     ok(result==
-	  '<td><a href="#" class="numPagJs" event-data="1,'+numPPagDefault+',\'a\'">1<a></td>'+
-	  '<td><a href="#" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',\'a\'">2<a></td>'+
-	  '<td>...[<a href="#" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',\'a\'">2<a>]</td>',
+	  '<td><a href="#" class="numPagJs selected" event-data="1,'+numPPagDefault+',3,\'a\'">1</a></td>'+
+	  '<td><a href="#" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',3,\'a\'">2</a></td>'+
+	  '<td>...[<a href="#" class="numPagJs ultimo colchete" event-data="2,'+numPPagDefault+',3,\'a\'">2</a>]</td>',
 	  'Esperado 2 linhas com td e o ... com o ultimo indice');
 });
 
@@ -402,14 +414,103 @@ test("IndiceItemSelecionado Test", function(){
   ok(result==0,'Esperado 0 recebido '+result);
 });
 
-test("VerificaPriUltOcuta Primeiro Oculto Test", function(){
-  ok(1==2);
+test("OcultaNavegacaoNaoUtilizada Impar Nav Test", function(){
+  $('body').append('<div class="OcultaNavegacaoNaoUtilizadaPaiDivTest" style="" ><div class="OcultaNavegacaoNaoUtilizadaDivTest" style="" /></div>');
+  //elementos
+  //htmlDiv
+  var htmlDiv = '';
+  for(var i=1;i<=30;i++){
+	if(i == 3)
+	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	else
+		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+  }
+  var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaDivTest'
+  $(nomePagDiv).append(htmlDiv)
+  
+  jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 3);
+  
+  ok($('.numPagJs:visible', nomePagDiv).length == 3, 'Esperado 2 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  $('.OcultaNavegacaoNaoUtilizadaPaiDivTest').hide();
 });
 
-test("VerificaPriUltOcuta Ultimo Oculto Test", function(){
-  ok(1==2);
+test("OcultaNavegacaoNaoUtilizada Par Nav Test", function(){
+  $('body').append('<div class="OcultaNavegacaoNaoUtilizadaPaiParDivTest" style="" ><div class="OcultaNavegacaoNaoUtilizadaDivParTest" style="" /></div>');
+  //elementos
+  //htmlDiv
+  var htmlDiv = '';
+  for(var i=1;i<=30;i++){
+	if(i == 3)
+	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	else
+		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+  }
+  var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaDivParTest'
+  $(nomePagDiv).append(htmlDiv)
+  
+  jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 4);
+  
+  ok($('.numPagJs:visible', nomePagDiv).length == 4, 'Esperado 4 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  $('.OcultaNavegacaoNaoUtilizadaPaiParDivTest').hide();
 });
 
-test("MontaHtmlPaginacao Ultimo Class Test", function(){
-	ok(1==2);
+test("OcultaNavegacaoNaoUtilizada Nav Primeiro Selected Test", function(){
+  $('body').append('<div class="OcultaNavegacaoNaoUtilizadaPaiPrimeiroDivTest" style="" ><div class="OcultaNavegacaoNaoUtilizadaDivPrimeiroTest" style="" /></div>');
+  //elementos
+  //htmlDiv
+  var htmlDiv = '';
+  for(var i=1;i<=30;i++){
+	if(i == 1)
+	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	else
+		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+  }
+  var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaDivPrimeiroTest'
+  $(nomePagDiv).append(htmlDiv)
+  
+  jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 4);
+  
+  ok($('.numPagJs:visible', nomePagDiv).length == 4, 'Esperado 4 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  $('.OcultaNavegacaoNaoUtilizadaPaiPrimeiroDivTest').hide();
+});
+
+test("OcultaNavegacaoNaoUtilizada Nav Ultimo Selected Test", function(){
+  $('body').append('<div class="OcultaNavegacaoNaoUtilizadaPaiUltimoDivTest" style="" ><div class="OcultaNavegacaoNaoUtilizadaDivUltimoTest" style="" /></div>');
+  //elementos
+  //htmlDiv
+  var htmlDiv = '';
+  for(var i=1;i<=30;i++){
+	if(i == 30)
+	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	else
+		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+  }
+  var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaDivUltimoTest'
+  $(nomePagDiv).append(htmlDiv)
+  
+  jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 3);
+  
+  ok($('.numPagJs:visible', nomePagDiv).length == 3, 'Esperado 3 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  $('.OcultaNavegacaoNaoUtilizadaPaiUltimoDivTest').hide();
+});
+
+
+test("OcultaNavegacaoNaoUtilizada SomenteUmaPaginaHide Test", function(){
+  $('body').append('<div class="OcultaNavegacaoNaoUtilizadaSomenteUmaHide" style="" />');
+  //elementos
+  //htmlDiv
+  var htmlDiv = '';
+  for(var i=1;i<=30;i++){
+	if(i == 30)
+	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	else
+		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+  }
+  var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaSomenteUmaHide'
+  $(nomePagDiv).append(htmlDiv)
+  
+  jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 50);
+  
+  ok($('.numPagJs:visible', nomePagDiv).length == 0, 'Esperado 0 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  $('.OcultaNavegacaoNaoUtilizadaSomenteUmaHide').hide();
 });
