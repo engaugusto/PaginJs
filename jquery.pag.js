@@ -3,6 +3,7 @@
   
   Author: Carlos Augusto
   Date: 24/01/2013
+  vr: 0.01b
 */
 
 var jPag = (function(){
@@ -25,6 +26,9 @@ var jPag = (function(){
 		'numPorPag'	:	2,
 		'numPorNav':	3,
 		'divPagName': '.jPagPag',
+		'tresPontosClass':'.tresPontosClassJsPag', //Não implementado ainda
+		'colcheteAntesClass':'.colcheteAntesJsPag', //Não implementado ainda
+		'colcheteDepoiClass': '.colcheteDepoisJsPag', //Não implementado ainda
 		'navegacao': false,
 		'exibeUltimoIndice': false
 	};
@@ -279,11 +283,11 @@ var jPag = (function(){
 	
 	//indice, numPPag, seletor
 	outputHtml += 
-		'<td><a class="navAntes" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
+		'<td><a class="navAntes" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
 		  .format('P',numPPag,numPNav,seletor, divPagConcat,'<<');
 		  
 	outputHtml += 
-		'<td><a class="navAntes" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
+		'<td><a class="navAntes" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
 		  .format('-1',numPPag,numPNav,seletor, divPagConcat,'<');
 	
 	return outputHtml;
@@ -302,12 +306,12 @@ var jPag = (function(){
 	}
 	
 	outputHtml += 
-		'<td><a class="navDepois" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
+		'<td><a class="navDepois" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
 		  .format('+1',numPPag,numPNav,seletor,divPagConcat,'>');
 	
 	//indice, numPPag, seletor
 	outputHtml += 
-		'<td><a class="navDepois" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
+		'<td><a class="navDepois" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
 		  .format('U',numPPag,numPNav,seletor, divPagConcat,'>>');
 		
 	return outputHtml;
@@ -384,11 +388,11 @@ var jPag = (function(){
 		if(i != 0){
 		  selected = '';
 		}
-		paginacao += '<a href="#" class="numPagJs{6}{5}" event-data="{0},{1},{2},\'{3}\'{4}">{0}</a>'.format(i+1,this.numPorPag,this.numPorNav,seletorNome,divPagConcat, ultimaPaginaClass, selected);
+		paginacao += '<a href="#" target="_self" class="numPagJs{6}{5}" event-data="{0},{1},{2},\'{3}\'{4}">{0}</a>'.format(i+1,this.numPorPag,this.numPorNav,seletorNome,divPagConcat, ultimaPaginaClass, selected);
 		paginacao += '</td>';
 	}
 	if(this.exibeUltimoIndice)
-	    paginacao += '<td>...[<a href="#" class="numPagJs ultimo colchete" event-data="{0},{1},{2},\'{3}\'{4}">{0}</a>]</td>'.format(i,this.numPorPag,this.numPorNav,seletorNome,divPagConcat);
+	    paginacao += '<td><div class=".tresPontosClassJsPag">...</div><div class="colcheteAntesJsPag">[</div><a href="#" target="_self" class="numPagJs ultimo colchete" event-data="{0},{1},{2},\'{3}\'{4}">{0}</a><div class="colcheteDepoisJsPag">]</div></td>'.format(i,this.numPorPag,this.numPorNav,seletorNome,divPagConcat);
 	
 	return paginacao;
   };
