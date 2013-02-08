@@ -20,7 +20,8 @@ test( "montarNavAntes test", function() {
   var seletor = '.montarNavAntes .c';
   
   var result = j.montarNavAntes(seletor,2,3);
-  ok('<td><a class="navAntes" href="#" event-data="P,2,3,\'.montarNavAntes .c\'"><<</a></td><td><a class="navAntes" href="#" event-data="-1,2,3,\'.montarNavAntes .c\'"><</a></td>'
+  //console.log(result);
+  ok('<td><a class="navAntes" target="_self" href="#" event-data="P,2,3,\'.montarNavAntes .c\'"><<</a></td><td><a class="navAntes" target="_self" href="#" event-data="-1,2,3,\'.montarNavAntes .c\'"><</a></td>'
 		== result, "Passed!" );
 });
 
@@ -33,7 +34,7 @@ test( "montarNavDepois test", function() {
   
   var result = j.montarNavDepois(seletor, 2,5);
   //console.log(result);
-  ok( '<td><a class="navDepois" href="#" event-data="+1,2,5,\'.montarNavDepois .c\'">></a></td><td><a class="navDepois" href="#" event-data="U,2,5,\'.montarNavDepois .c\'">>></a></td>' == result, "Passed!" );
+  ok( '<td><a class="navDepois" target="_self" href="#" event-data="+1,2,5,\'.montarNavDepois .c\'">></a></td><td><a class="navDepois" target="_self" href="#" event-data="U,2,5,\'.montarNavDepois .c\'">>></a></td>' == result, "Passed!" );
 });
 
 test( "calculaItemExibido test", function(){
@@ -240,7 +241,7 @@ test( " montarPaginacao test sem navegacao", function(){
   
   var outputHtml = j.MontarPaginacaoENavegacao(nDiv);
   //console.log(outputHtml);
-  ok(outputHtml=='<table><tr><td><a href="#" class="numPagJs selected" event-data="1,2,2,\'.montarPaginacaoPai .a\'">1</a></td><td><a href="#" class="numPagJs ultimo" event-data="2,2,2,\'.montarPaginacaoPai .a\'">2</a></td></tr></table>');
+  ok(outputHtml=='<table><tr><td><a href="#" target="_self" class="numPagJs selected" event-data="1,2,2,\'.montarPaginacaoPai .a\'">1</a></td><td><a href="#" target="_self" class="numPagJs ultimo" event-data="2,2,2,\'.montarPaginacaoPai .a\'">2</a></td></tr></table>');
 });
 
 test( " montarPaginacao test com navegacao", function(){
@@ -263,7 +264,7 @@ test( " montarPaginacao test com navegacao", function(){
   
   //var qtdPaginacao = $('.resultMontarPaginacao .numPagJs').length;
   //console.log(outputHtml);
-  ok(outputHtml == '<table><tr><td><a class="navAntes" href="#" event-data="P,2,2,\'.montarPaginacaoPaiComNav .a\'"><<</a></td><td><a class="navAntes" href="#" event-data="-1,2,2,\'.montarPaginacaoPaiComNav .a\'"><</a></td><td><a href="#" class="numPagJs selected" event-data="1,2,2,\'.montarPaginacaoPaiComNav .a\'">1</a></td><td><a href="#" class="numPagJs ultimo" event-data="2,2,2,\'.montarPaginacaoPaiComNav .a\'">2</a></td><td><a class="navDepois" href="#" event-data="+1,2,2,\'.montarPaginacaoPaiComNav .a\'">></a></td><td><a class="navDepois" href="#" event-data="U,2,2,\'.montarPaginacaoPaiComNav .a\'">>></a></td></tr></table>', 'Passed');
+  ok(outputHtml == '<table><tr><td><a class="navAntes" target="_self" href="#" event-data="P,2,2,\'.montarPaginacaoPaiComNav .a\'"><<</a></td><td><a class="navAntes" target="_self" href="#" event-data="-1,2,2,\'.montarPaginacaoPaiComNav .a\'"><</a></td><td><a href="#" target="_self" class="numPagJs selected" event-data="1,2,2,\'.montarPaginacaoPaiComNav .a\'">1</a></td><td><a href="#" target="_self" class="numPagJs ultimo" event-data="2,2,2,\'.montarPaginacaoPaiComNav .a\'">2</a></td><td><a class="navDepois" target="_self" href="#" event-data="+1,2,2,\'.montarPaginacaoPaiComNav .a\'">></a></td><td><a class="navDepois" target="_self" href="#" event-data="U,2,2,\'.montarPaginacaoPaiComNav .a\'">>></a></td></tr></table>', 'Passed');
 });
 
 //teste função principal
@@ -356,27 +357,28 @@ test("MontaHtmlPaginacao Test", function(){
   var numPPagDefault = j.getNumPorPag();
   var result = j.MontaHtmlPaginacao('a',1);
   
-  ok(result=='<td><a href="#" class="numPagJs selected ultimo" event-data="1,'
+  ok(result=='<td><a href="#" target="_self" class="numPagJs selected ultimo" event-data="1,'
 	   +numPPagDefault+
 	   ',3,\'a\'">1</a></td>',
 	   'Esperado 1 td');
   result = j.MontaHtmlPaginacao('c',3);
-  ok(result=='<td><a href="#" class="numPagJs selected" event-data="1,' 
+  ok(result=='<td><a href="#" target="_self" class="numPagJs selected" event-data="1,' 
 	   +numPPagDefault+
-	   ',3,\'c\'">1</a></td><td><a href="#" class="numPagJs ultimo" event-data="2,'
+	   ',3,\'c\'">1</a></td><td><a href="#" target="_self" class="numPagJs ultimo" event-data="2,'
 	   +numPPagDefault+
 	   ',3,\'c\'">2</a></td>','Esperado 2 td\'s');
   
   var j = new jPag({'divPagName': '.testPagDiv'});
   result = j.MontaHtmlPaginacao('c',3);
   //console.log(result);
-  ok(result=='<td><a href="#" class="numPagJs selected" event-data="1,'
+  ok(result=='<td><a href="#" target="_self" class="numPagJs selected" event-data="1,'
                +numPPagDefault+
-			   ',3,\'c\',\'.testPagDiv\'">1</a></td><td><a href="#" class="numPagJs ultimo" event-data="2,'
+			   ',3,\'c\',\'.testPagDiv\'">1</a></td><td><a href="#" target="_self" class="numPagJs ultimo" event-data="2,'
 			   +numPPagDefault+
 			   ',3,\'c\',\'.testPagDiv\'">2</a></td>',
 			   'Esperado que fossem 2 tds com o nome da div de paginacao'
     );
+	//console.log(result);
 });
 
 test('numPorPag Test', function(){
@@ -393,11 +395,11 @@ test('exibeUltimoIndice Test', function(){
 	var numPPagDefault = j.getNumPorPag();
 	
     var result = j.MontaHtmlPaginacao('a',3);
-	//console.log(result);
+	console.log(result);
     ok(result==
-	  '<td><a href="#" class="numPagJs selected" event-data="1,'+numPPagDefault+',3,\'a\'">1</a></td>'+
-	  '<td><a href="#" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',3,\'a\'">2</a></td>'+
-	  '<td>...[<a href="#" class="numPagJs ultimo colchete" event-data="2,'+numPPagDefault+',3,\'a\'">2</a>]</td>',
+	  '<td><a href="#" target="_self" class="numPagJs selected" event-data="1,'+numPPagDefault+',3,\'a\'">1</a></td>'+
+	  '<td><a href="#" target="_self" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',3,\'a\'">2</a></td>'+
+	  '<td><div class=".tresPontosClassJsPag">...</div><div class="colcheteAntesJsPag">[</div><a href="#" target="_self" class="numPagJs ultimo colchete" event-data="2,'+numPPagDefault+',3,\'a\'">2</a><div class="colcheteDepoisJsPag">]</div></td>',
 	  'Esperado 2 linhas com td e o ... com o ultimo indice');
 });
 
