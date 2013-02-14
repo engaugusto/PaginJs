@@ -26,9 +26,7 @@ var jPag = (function(){
 		'numPorPag'	:	2,
 		'numPorNav':	3,
 		'divPagName': '.jPagPag',
-		'tresPontosClass':'.tresPontosClassJsPag', //Não implementado ainda
-		'colcheteAntesClass':'.colcheteAntesJsPag', //Não implementado ainda
-		'colcheteDepoiClass': '.colcheteDepoisJsPag', //Não implementado ainda
+		'tresPontosClass':'tresPontosClassJsPag', //Não implementado ainda
 		'navegacao': false,
 		'exibeUltimoIndice': false
 	};
@@ -160,30 +158,34 @@ var jPag = (function(){
 	//comeca em 0
 	indice--;
 	//ocultando todos
-	$('.numPagJs', nomePagDiv).hide();
+	$('.numPagJs', nomePagDiv).parent('td').hide();
+	
 	//exibindo o próprio indice
-	$($('.numPagJs', nomePagDiv)[indice]).show();
-	$($('.numPagJs.colchete', nomePagDiv)).show();
+	$($('.numPagJs', nomePagDiv)[indice]).parent('td').show();
+	$('.numPagJs.colchete', nomePagDiv).parent('td').show();
 	
 	var qtdAExibir =1;
 	//se for impar
 	if(numPorNav%2 != 0){
 	   qtdAExibir = numPorNav-1
 	   for(var i = 1;i<=qtdAExibir/2;i++){
-	    $($('.numPagJs', nomePagDiv)[indice+i]).show();
-	    $($('.numPagJs', nomePagDiv)[indice-i]).show();
+	    $($('.numPagJs', nomePagDiv)[indice+i]).parent('td').show();
+	    $($('.numPagJs', nomePagDiv)[indice-i]).parent('td').show();
 	   }
 	}else{
 	   qtdAExibir = numPorNav-1;
 	   
 	   for(var i = 1;i<=Math.ceil(qtdAExibir/2);i++){
-	    $($('.numPagJs', nomePagDiv)[indice+i]).show();
+	    $($('.numPagJs', nomePagDiv)[indice+i]).parent('td').show();
 	   }
 	   
 	   for(var i = 1;i<=qtdAExibir%2;i++){
-		$($('.numPagJs', nomePagDiv)[indice-i]).show();
+		$($('.numPagJs', nomePagDiv)[indice-i]).parent('td').show();
 	   }
 	}
+	
+	//ocultando o último caso ele seja selecionado e a navegação esteja ativada
+	//if(indice == 
   };
   
   /*
@@ -283,11 +285,11 @@ var jPag = (function(){
 	
 	//indice, numPPag, seletor
 	outputHtml += 
-		'<td><a class="navAntes" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
+		'<td class="navTdMenorMenor"><a class="navAntes" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
 		  .format('P',numPPag,numPNav,seletor, divPagConcat,'<<');
 		  
 	outputHtml += 
-		'<td><a class="navAntes" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
+		'<td class="navTdMenor"><a class="navAntes" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
 		  .format('-1',numPPag,numPNav,seletor, divPagConcat,'<');
 	
 	return outputHtml;
@@ -306,12 +308,12 @@ var jPag = (function(){
 	}
 	
 	outputHtml += 
-		'<td><a class="navDepois" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
+		'<td class="navTdMaior"><a class="navDepois" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
 		  .format('+1',numPPag,numPNav,seletor,divPagConcat,'>');
 	
 	//indice, numPPag, seletor
 	outputHtml += 
-		'<td><a class="navDepois" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
+		'<td class="navTdMaiorMaior"><a class="navDepois" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
 		  .format('U',numPPag,numPNav,seletor, divPagConcat,'>>');
 		
 	return outputHtml;
@@ -392,7 +394,7 @@ var jPag = (function(){
 		paginacao += '</td>';
 	}
 	if(this.exibeUltimoIndice)
-	    paginacao += '<td><div class=".tresPontosClassJsPag">...</div><div class="colcheteAntesJsPag">[</div><a href="#" target="_self" class="numPagJs ultimo colchete" event-data="{0},{1},{2},\'{3}\'{4}">{0}</a><div class="colcheteDepoisJsPag">]</div></td>'.format(i,this.numPorPag,this.numPorNav,seletorNome,divPagConcat);
+	    paginacao += '<td><div class="tresPontosClassJsPag">...</div><a href="#" target="_self" class="numPagJs ultimo colchete" event-data="{0},{1},{2},\'{3}\'{4}">[ {0} ]</a></td>'.format(i,this.numPorPag,this.numPorNav,seletorNome,divPagConcat);
 	
 	return paginacao;
   };

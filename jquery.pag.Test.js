@@ -395,11 +395,11 @@ test('exibeUltimoIndice Test', function(){
 	var numPPagDefault = j.getNumPorPag();
 	
     var result = j.MontaHtmlPaginacao('a',3);
-	console.log(result);
+	//console.log(result);
     ok(result==
 	  '<td><a href="#" target="_self" class="numPagJs selected" event-data="1,'+numPPagDefault+',3,\'a\'">1</a></td>'+
 	  '<td><a href="#" target="_self" class="numPagJs ultimo" event-data="2,'+numPPagDefault+',3,\'a\'">2</a></td>'+
-	  '<td><div class=".tresPontosClassJsPag">...</div><div class="colcheteAntesJsPag">[</div><a href="#" target="_self" class="numPagJs ultimo colchete" event-data="2,'+numPPagDefault+',3,\'a\'">2</a><div class="colcheteDepoisJsPag">]</div></td>',
+	  '<td><div class="tresPontosClassJsPag">...</div><a href="#" target="_self" class="numPagJs ultimo colchete" event-data="2,'+numPPagDefault+',3,\'a\'">[ 2 ]</a></td>',
 	  'Esperado 2 linhas com td e o ... com o ultimo indice');
 });
 
@@ -423,16 +423,18 @@ test("OcultaNavegacaoNaoUtilizada Impar Nav Test", function(){
   var htmlDiv = '';
   for(var i=1;i<=30;i++){
 	if(i == 3)
-	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	    htmlDiv += "<td><a href='#' class='numPagJs selected' event-data='1'>{0}<a></td>".format(i);
 	else
-		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+		htmlDiv += "<td><a href='#' class='numPagJs' event-data='1'>{0}<a></td>".format(i);
   }
   var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaDivTest'
   $(nomePagDiv).append(htmlDiv)
   
   jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 3);
   
-  ok($('.numPagJs:visible', nomePagDiv).length == 3, 'Esperado 2 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  var result = $('.numPagJs', nomePagDiv).parent('td:visible').length;
+  //console.log(result);
+  ok(result == 3, 'Esperado 2 retornado '+ result);
   $('.OcultaNavegacaoNaoUtilizadaPaiDivTest').hide();
 });
 
@@ -443,16 +445,18 @@ test("OcultaNavegacaoNaoUtilizada Par Nav Test", function(){
   var htmlDiv = '';
   for(var i=1;i<=30;i++){
 	if(i == 3)
-	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	    htmlDiv += "<td><a href='#' class='numPagJs selected' event-data='1'>{0}<a></td>".format(i);
 	else
-		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+		htmlDiv += "<td><a href='#' class='numPagJs' event-data='1'>{0}<a></td>".format(i);
   }
   var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaDivParTest'
   $(nomePagDiv).append(htmlDiv)
   
   jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 4);
   
-  ok($('.numPagJs:visible', nomePagDiv).length == 4, 'Esperado 4 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  var result = $('.numPagJs', nomePagDiv).parent('td:visible').length;
+  //console.log(result);
+  ok(result == 4, 'Esperado 4 retornado '+ result);
   $('.OcultaNavegacaoNaoUtilizadaPaiParDivTest').hide();
 });
 
@@ -463,16 +467,18 @@ test("OcultaNavegacaoNaoUtilizada Nav Primeiro Selected Test", function(){
   var htmlDiv = '';
   for(var i=1;i<=30;i++){
 	if(i == 1)
-	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	    htmlDiv += "<td><a href='#' class='numPagJs selected' event-data='1'>{0}<a></td>".format(i);
 	else
-		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+		htmlDiv += "<td><a href='#' class='numPagJs' event-data='1'>{0}<a></td>".format(i);
   }
   var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaDivPrimeiroTest'
   $(nomePagDiv).append(htmlDiv)
   
   jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 4);
   
-  ok($('.numPagJs:visible', nomePagDiv).length == 4, 'Esperado 4 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  var result = $('.numPagJs:visible', nomePagDiv).length;
+  //console.log(result);
+  ok(result == 4, 'Esperado 4 retornado '+ result);
   $('.OcultaNavegacaoNaoUtilizadaPaiPrimeiroDivTest').hide();
 });
 
@@ -483,16 +489,18 @@ test("OcultaNavegacaoNaoUtilizada Nav Ultimo Selected Test", function(){
   var htmlDiv = '';
   for(var i=1;i<=30;i++){
 	if(i == 30)
-	    htmlDiv += "<a href='#' class='numPagJs selected' event-data='1'>{0}<a>".format(i);
+	    htmlDiv += "<td><a href='#' class='numPagJs selected' event-data='1'>{0}<a></td>".format(i);
 	else
-		htmlDiv += "<a href='#' class='numPagJs' event-data='1'>{0}<a>".format(i);
+		htmlDiv += "<td><a href='#' class='numPagJs' event-data='1'>{0}<a></td>".format(i);
   }
   var nomePagDiv = '.OcultaNavegacaoNaoUtilizadaDivUltimoTest'
   $(nomePagDiv).append(htmlDiv)
   
   jPag.OcultaNavegacaoNaoUtilizada(nomePagDiv, 3);
   
-  ok($('.numPagJs:visible', nomePagDiv).length == 3, 'Esperado 3 retornado '+$('.numPagJs:visible', nomePagDiv).length);
+  var result = $('.numPagJs:visible', nomePagDiv).parent('td').length;
+  //console.log(result);
+  ok(result == 3, 'Esperado 3 retornado '+ result);
   $('.OcultaNavegacaoNaoUtilizadaPaiUltimoDivTest').hide();
 });
 
