@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  Index
+  <link rel="stylesheet" href="jquery.pag.css"/>
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <script type="text/javascript" src="jquery.pag.js"></script>
+  <script type="text/javascript" >
+    $(function(){
+	  
+	  var jPaginar4 = new jPag(
+	     { 
+		   'divPagName':'.divPagTst4',
+		   'navegacao': true,
+		   'numPorNav': 2,
+		   'exibeUltimoIndice': true
+		 }
+	 );
+	  jPaginar4.Paginar($('.teste4 .tst'));
+	  
+	});
+  </script>
+</head>
+<body>
+ <h1>Exemplo paginacoes</h1>
+ 
+ <div class='teste4 paginationBRQJs' style='float:left;margin-left:30px;'>
+ <h1>Test4</h1>
+  <div class='tst'>
+    Testo 4.1
+  </div>
+  <div class='tst'>
+    Testo 4.2
+  </div>
+  <div class='tst'>
+    Testo 4.3
+  </div>
+  <div class='tst'>
+    Testo 4.4
+  </div>
+  <div class='tst'>
+    Testo 4.5
+  </div>
+  <div class='tst'>
+    Testo 4.6
+  </div><div class='tst'>
+    Testo 4.7
+  </div>
+  <div class='tst'>
+    Testo 4.8
+  </div>
+  <div class='tst'>
+    Testo 4.9
+  </div>
+  <div class='tst'>
+    Testo 4.10
+  </div>
+  <div class='tst'>
+    Testo 4.11
+  </div>
+  <div class='tst'>
+    Testo 4.12
+  </div>
+  <div class='tst'>
+    Testo 4.13
+  </div>
+  <div class='tst'>
+    Testo 4.14
+  </div>
+  <div class='tst'>
+    Testo 4.15
+  </div>
+  <div class='divPagTst4'></div>
+  </div>
+  <div style='clear:both'/>
+  
+  <div class='teste6' style='float:left;margin-left:30px;'>
+   <div class='divPagTst6'></div>
+  </div>
+ </div>
+</body>
+</html>

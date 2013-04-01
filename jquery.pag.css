@@ -1,0 +1,40 @@
+/* File Created: fevereiro 14, 2013 */
+.paginationBRQJs a
+{
+    color: white !important;
+    display: block;
+    float: left;
+    padding: 0.3em 0.5em;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #00359F;
+    background-image: url(imgs/bg_bt_principal.png);
+    position: relative;    
+}
+    
+.paginationBRQJs a.selected
+{
+    color: #00359F !important;
+    background-image: none !important;
+    background-color: White !important;
+}
+    
+.paginationBRQJs div.tresPontosClassJsPag 
+{
+    float: left;
+    margin-top: 4px;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size:15px;
+}
+
+.paginationBRQJs .navTdMenorMenor, .paginationBRQJs .navTdMaiorMaior 
+{
+    width: 32px;         
+    
+}
+
+.paginationBRQJs .navTdMenor, .paginationBRQJs .navTdMaior 
+{
+    width: 27px;        
+}

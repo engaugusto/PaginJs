@@ -2,8 +2,11 @@
   Jquery Pagination
   
   Author: Carlos Augusto
-  Date: 24/01/2013
+  Create Date: 24/01/2013
+  Update Date : 17/03/2013
   vr: 0.01b
+
+  TODO: Necessário exibir a div de navegação na função paginar caso haja indices de paginacao
 */
 
 var jPag = (function(){
@@ -290,7 +293,7 @@ var jPag = (function(){
 		  
 	outputHtml += 
 		'<td class="navTdMenor"><a class="navAntes" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
-		  .format('-1',numPPag,numPNav,seletor, divPagConcat,'<');
+		  .format('-1',numPPag,numPNav,seletor, divPagConcat,'Anterior');
 	
 	return outputHtml;
   }
@@ -309,7 +312,7 @@ var jPag = (function(){
 	
 	outputHtml += 
 		'<td class="navTdMaior"><a class="navDepois" target="_self" href="#" event-data="{0},{1},{2},\'{3}\'{4}">{5}</a></td>'
-		  .format('+1',numPPag,numPNav,seletor,divPagConcat,'>');
+		  .format('+1',numPPag,numPNav,seletor,divPagConcat,'Pr&oacute;ximo');
 	
 	//indice, numPPag, seletor
 	outputHtml += 
@@ -430,6 +433,7 @@ var jPag = (function(){
   
   /*
   * Paginar
+  *
   * Função que vincula os eventos e pagina
   * Função Principal
   */
